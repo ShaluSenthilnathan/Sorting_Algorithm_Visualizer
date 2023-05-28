@@ -4,8 +4,8 @@
 #include<GL\glut.h>
 
 #define SORT_NO  1 //the number of sorting algorithms 
-#define MAX_ELE  100
-#define SPEED  1000 //Speed of sorting
+#define MAX_ELE  50
+#define SPEED  800 //Speed of sorting
 
 int a[MAX_ELE];
 int k = 0, sorting = 0, sort_count = 0, swapflag = 0;
@@ -21,16 +21,8 @@ void text_output(int x, int y, const char* string, void* font)
 	int len, i;
 	len = (int)strlen(string);
 
-	// Calculate the center position
-	int screenWidth = glutGet(GLUT_WINDOW_WIDTH);
-	int screenHeight = glutGet(GLUT_WINDOW_HEIGHT);
-	int textWidth = glutBitmapLength(font, (const unsigned char*)string);
-
-	// Adjust the x-coordinate to center the text
-	int centerX = (screenWidth - textWidth) / 2;
-	int newY = y; // Keep the y-coordinate as specified
-
-	glRasterPos2f(centerX, newY);
+	
+	glRasterPos2f(x,y);
 
 	for (i = 0; i < len; i++) {
 		glutBitmapCharacter(font, string[i]);
@@ -78,45 +70,46 @@ void bubblesort()
 void frontend_display()
 {
 	glColor3f(0.0, 0.0, 1.0);
-	text_output(0, 500, "SORTING ALGORITHM VISUALIZER", GLUT_BITMAP_TIMES_ROMAN_24);
+	text_output(330, 600, "SORTING ALGORITHM VISUALIZER", GLUT_BITMAP_TIMES_ROMAN_24);
 	glColor3f(1.0, 0.0, 0.0);
-	text_output(0, 450, "Press Enter to continue", GLUT_BITMAP_HELVETICA_18);
+	text_output(420, 535, "Press Enter to continue", GLUT_BITMAP_HELVETICA_18);
+	
 }
 
 void second_page_display()
 {
 	glColor3f(0, 0, 1);
-	text_output(0, 750, "SORTING ALGORITHM VISUALIZER", GLUT_BITMAP_TIMES_ROMAN_24);
+	text_output(300, 750, "SORTING ALGORITHM VISUALIZER", GLUT_BITMAP_TIMES_ROMAN_24);
 	
 	// other text small font
-	text_output(10, 625, "This program sorts a random set of numbers(represented as bars of different heights) in ascending order  ", GLUT_BITMAP_9_BY_15);
+	text_output(10, 700, "This program sorts a random set of numbers(represented as bars of different heights) in ascending order  ", GLUT_BITMAP_9_BY_15);
+    
 
 
 	if (sorting == 0)	// if not sorting display menu
 	{
-		text_output(10, 575, "MENU", GLUT_BITMAP_9_BY_15);
-		text_output(10, 565, " ", GLUT_BITMAP_HELVETICA_18);  //for space between lines
+		text_output(10, 660, "MENU :", GLUT_BITMAP_9_BY_15);
 		
-		text_output(10, 555, "Press s to SORT", GLUT_BITMAP_9_BY_15);
-		text_output(10, 545, " ", GLUT_BITMAP_HELVETICA_18);
 		
-		text_output(10, 535, "Press c to SELECT the sort algorithm", GLUT_BITMAP_9_BY_15);
-		text_output(10, 525, " ", GLUT_BITMAP_HELVETICA_18);
+		text_output(10, 630, "Press s to SORT", GLUT_BITMAP_9_BY_15);
 		
-		text_output(10, 515, "Press r to RANDOMISE", GLUT_BITMAP_9_BY_15);
-		text_output(10, 505, " ", GLUT_BITMAP_HELVETICA_18);
 		
-		text_output(10, 495, "Esc to QUIT", GLUT_BITMAP_9_BY_15);
-		text_output(10, 485, " ", GLUT_BITMAP_HELVETICA_18);
+		text_output(10, 600, "Press c to SELECT the sort algorithm", GLUT_BITMAP_9_BY_15);
+		
+		
+		text_output(10, 570, "Press r to RANDOMISE", GLUT_BITMAP_9_BY_15);
+		
+		text_output(10, 540, "Esc to QUIT", GLUT_BITMAP_9_BY_15);
+		
 
-		text_output(10, 475, "Selected sort: ", GLUT_BITMAP_9_BY_15);
-		text_output(150, 465, *(sort_algo_string + sort_count), GLUT_BITMAP_9_BY_15);
+		text_output(10, 510, "Selected sort: ", GLUT_BITMAP_9_BY_15);
+		text_output(150, 510, *(sort_algo_string + sort_count), GLUT_BITMAP_9_BY_15);
 	}
 	else if (sorting == 1)	// while sorting
 	{
 		glColor3f(0.5, 0.5, 0.5);
-		text_output(10, 555, "Sorting in progress...", GLUT_BITMAP_9_BY_15);
-		text_output(10, 535, "Press p to PAUSE", GLUT_BITMAP_9_BY_15);
+		text_output(10, 630, "Sorting in progress...", GLUT_BITMAP_9_BY_15);
+		text_output(10, 600, "Press p to PAUSE", GLUT_BITMAP_9_BY_15);
 		glColor3f(0.0, 0.0, 0.0);
 	}
 }
@@ -140,10 +133,10 @@ void display()
 		{
 			glColor3f(1, 0, 0);
 			glBegin(GL_LINE_LOOP);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * i, 50);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * (i + 1), 50);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * (i + 1), 50 + a[i] * 4);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * i, 50 + a[i] * 4);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * i, 50);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * (i + 1), 50);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * (i + 1), 50 + a[i] * 4);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * i, 50 + a[i] * 4);
 			glEnd();
 
 			int_str(a[i], text);
@@ -156,10 +149,10 @@ void display()
 		{
 			glColor3f(0, 0, 1);
 			glBegin(GL_POLYGON);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * j, 50);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * (j + 1), 50);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * (j + 1), 50 + a[j] * 4);
-			glVertex2f(10 + (700 / (MAX_ELE + 1)) * j, 50 + a[j] * 4);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * j, 50);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * (j + 1), 50);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * (j + 1), 50 + a[j] * 4);
+			glVertex2f(10 + (1000 / (MAX_ELE + 1)) * j, 50 + a[j] * 4);
 			glEnd();
 			swapflag = 0;
 		}
@@ -219,20 +212,6 @@ void keyboard(unsigned char key, int x, int y)
 			sorting = 0;
 }
 
-/*void reshape_action(GLsizei w, GLsizei h){
-    glViewport(0,0,w,h);
-    glMatrixMode(GL_PROJECTION_MATRIX);
-    glLoadIdentity();
-    float t1 = (float) w/(float) h;
-    float t2 = (float) h/(float) w;
-    if(w>h)
-        gluOrtho2D(1000*t1,600*t1,1000,600);
-    else
-        gluOrtho2D(1000,600,1000*t2,600*t2);
-    glMatrixMode(GL_MODELVIEW);
-    glutPostRedisplay();
-}*/
-
 void makedelay(int)
 {
 	if(sorting)
@@ -258,7 +237,6 @@ int main(int argc, char** argv)
 	init();
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyboard);
-	//glutReshapeFunc(reshape_action);
 	glutTimerFunc(1000, makedelay, 1);
 	glutMainLoop();
 }
