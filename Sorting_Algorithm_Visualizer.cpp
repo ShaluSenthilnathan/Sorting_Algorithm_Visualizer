@@ -3,7 +3,7 @@
 #include<string.h>
 #include<GL\glut.h>
 
-#define SORT_NO  1 //the number of sorting algorithms 
+#define SORT_NO  2 //the number of sorting algorithms 
 #define MAX_ELE  50
 #define SPEED  800 //Speed of sorting
 
@@ -11,9 +11,7 @@ int a[MAX_ELE];
 int k = 0, sorting = 0, sort_count = 0, swapflag = 0;
 int i, j, flag, count, dirflag;
 
-const char* sort_algo_string[] = { "Bubble Sort" };  //array containing the sorting algorithms 
-
-
+const char* sort_algo_string[] = { "Bubble Sort" ,"Insertion Sort"};  //array containing the sorting algorithms 
 
 
 void text_output(int x, int y, const char* string, void* font)
@@ -21,7 +19,6 @@ void text_output(int x, int y, const char* string, void* font)
 	int len, i;
 	len = (int)strlen(string);
 
-	
 	glRasterPos2f(x,y);
 
 	for (i = 0; i < len; i++) {
@@ -29,7 +26,8 @@ void text_output(int x, int y, const char* string, void* font)
 	}
 }
 
-int notsorted(){
+
+int notsorted() {
 	int q;
 	for(q=0;q<MAX_ELE-1;q++)
 	{
@@ -38,6 +36,7 @@ int notsorted(){
 	}
 	return 0;
 }
+
 
 //Bubble Sort Code
 void bubblesort()
@@ -57,14 +56,55 @@ void bubblesort()
 				goto A;
 			}
 			j++;
-			if(j==MAX_ELE-1) j=0;
-			printf("swap %d and %d\n",a[j],a[j+1]);
+			if (j == MAX_ELE - 1)
+				j = 0;
 		}
 	}
 	sorting=0;
 	A: printf("");
 }
 
+
+// Insertion Sort
+void insertionsort()
+{
+    int i = 0;
+    int j = 0;
+	int temp;
+	
+	while (i < MAX_ELE)
+    {
+        if (flag == 0)
+        {
+            j = i;
+            flag = 1;
+        }
+        while (j < MAX_ELE - 1)
+        {
+            if (a[j] > a[j + 1])
+            {
+                swapflag = 1;
+                temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+
+                goto A;
+            }
+
+            j++;
+            if (j == MAX_ELE - 1)
+            {
+                flag = 0;
+            }
+        }
+
+        i++;
+    }
+
+    sorting = 0;
+    A:
+    i = j = 0;
+}
 
 
 void frontend_display()
@@ -76,6 +116,7 @@ void frontend_display()
 	
 }
 
+
 void second_page_display()
 {
 	glColor3f(0, 0, 1);
@@ -84,25 +125,20 @@ void second_page_display()
 	// other text small font
 	text_output(10, 700, "This program sorts a random set of numbers(represented as bars of different heights) in ascending order  ", GLUT_BITMAP_9_BY_15);
     
-
-
 	if (sorting == 0)	// if not sorting display menu
 	{
 		text_output(10, 660, "MENU :", GLUT_BITMAP_9_BY_15);
 		
-		
 		text_output(10, 630, "Press s to SORT", GLUT_BITMAP_9_BY_15);
 		
-		
 		text_output(10, 600, "Press c to SELECT the sort algorithm", GLUT_BITMAP_9_BY_15);
-		
 		
 		text_output(10, 570, "Press r to RANDOMISE", GLUT_BITMAP_9_BY_15);
 		
 		text_output(10, 540, "Esc to QUIT", GLUT_BITMAP_9_BY_15);
 		
-
 		text_output(10, 510, "Selected sort: ", GLUT_BITMAP_9_BY_15);
+		
 		text_output(150, 510, *(sort_algo_string + sort_count), GLUT_BITMAP_9_BY_15);
 	}
 	else if (sorting == 1)	// while sorting
@@ -114,10 +150,12 @@ void second_page_display()
 	}
 }
 
+
 void int_str(int rad, char r[])
 {
 	itoa(rad, r, 10);
 }
+
 
 void display()
 {
@@ -162,7 +200,6 @@ void display()
 }
 
 
-
 void init()
 {
 	// Reseting the array prior to every sorting algorithm execution
@@ -171,7 +208,6 @@ void init()
 		a[i] = rand() % 100 + 1;  //setting elements of the array randomly 
 		printf("%d ", a[i]);
 	}
-
 	// Reseting all other values
 	i = j = 0;
 	dirflag = 0;
@@ -212,6 +248,7 @@ void keyboard(unsigned char key, int x, int y)
 			sorting = 0;
 }
 
+
 void makedelay(int)
 {
 	if(sorting)
@@ -220,12 +257,15 @@ void makedelay(int)
 		{
 		case 0:	bubblesort();
 			    break;
+		case 1: insertionsort();
+			    break;
 
 		}
 	}
 	glutPostRedisplay();
 	glutTimerFunc(SPEED/MAX_ELE,makedelay,1);
 }
+
 
 int main(int argc, char** argv)
 {
