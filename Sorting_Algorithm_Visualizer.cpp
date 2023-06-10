@@ -3,7 +3,7 @@
 #include<string.h>
 #include<GL\glut.h>
 
-#define SORT_NO  2 //the number of sorting algorithms 
+#define SORT_NO  3 //the number of sorting algorithms 
 #define MAX_ELE  50
 #define SPEED  800 //Speed of sorting
 
@@ -11,7 +11,7 @@ int a[MAX_ELE];
 int k = 0, sorting = 0, sort_count = 0, swapflag = 0;
 int i, j, flag, count, dirflag;
 
-const char* sort_algo_string[] = { "Bubble Sort" ,"Insertion Sort"};  //array containing the sorting algorithms 
+const char* sort_algo_string[] = { "Bubble Sort" ,"Insertion Sort","Selection Sort" };  //array containing the sorting algorithms 
 
 
 void text_output(int x, int y, const char* string, void* font)
@@ -19,7 +19,7 @@ void text_output(int x, int y, const char* string, void* font)
 	int len, i;
 	len = (int)strlen(string);
 
-	glRasterPos2f(x,y);
+	glRasterPos2f(x, y);
 
 	for (i = 0; i < len; i++) {
 		glutBitmapCharacter(font, string[i]);
@@ -29,9 +29,9 @@ void text_output(int x, int y, const char* string, void* font)
 
 int notsorted() {
 	int q;
-	for(q=0;q<MAX_ELE-1;q++)
+	for (q = 0;q < MAX_ELE - 1;q++)
 	{
-		if(a[q]>a[q+1])
+		if (a[q] > a[q + 1])
 			return 1;
 	}
 	return 0;
@@ -42,16 +42,16 @@ int notsorted() {
 void bubblesort()
 {
 	int temp;
-	while(notsorted())
+	while (notsorted())
 	{
-		while(j<MAX_ELE-1)
+		while (j < MAX_ELE - 1)
 		{
-			if(a[j]>a[j+1])
+			if (a[j] > a[j + 1])
 			{
-				swapflag=1;
-				temp=a[j];
-				a[j]=a[j+1];
-				a[j+1]=temp;
+				swapflag = 1;
+				temp = a[j];
+				a[j] = a[j + 1];
+				a[j + 1] = temp;
 
 				goto A;
 			}
@@ -60,50 +60,88 @@ void bubblesort()
 				j = 0;
 		}
 	}
-	sorting=0;
-	A: printf("");
+	sorting = 0;
+A: printf("");
 }
 
 
 // Insertion Sort
 void insertionsort()
 {
-    int i = 0;
-    int j = 0;
+	int i = 0;
+	int j = 0;
 	int temp;
-	
+
 	while (i < MAX_ELE)
-    {
-        if (flag == 0)
-        {
-            j = i;
-            flag = 1;
-        }
-        while (j < MAX_ELE - 1)
-        {
-            if (a[j] > a[j + 1])
-            {
-                swapflag = 1;
-                temp = a[j];
-                a[j] = a[j + 1];
-                a[j + 1] = temp;
+	{
+		if (flag == 0)
+		{
+			j = i;
+			flag = 1;
+		}
+		while (j < MAX_ELE - 1)
+		{
+			if (a[j] > a[j + 1])
+			{
+				swapflag = 1;
+				temp = a[j];
+				a[j] = a[j + 1];
+				a[j + 1] = temp;
 
-                goto A;
-            }
+				goto A;
+			}
 
-            j++;
-            if (j == MAX_ELE - 1)
-            {
-                flag = 0;
-            }
-        }
+			j++;
+			if (j == MAX_ELE - 1)
+			{
+				flag = 0;
+			}
+		}
 
-        i++;
-    }
+		i++;
+	}
 
-    sorting = 0;
-    A:
-    i = j = 0;
+	sorting = 0;
+A:
+	i = j = 0;
+}
+void selectionsort()
+{
+	int temp, j = 0, i = 0, min, pos;
+
+	while (notsorted())
+	{
+
+		while (i < MAX_ELE - 1)
+		{
+			min = a[i + 1];
+			pos = i + 1;
+			if (i != MAX_ELE - 1)
+			{
+				for (j = i + 2;j < MAX_ELE;j++)
+				{
+					if (min > a[j])
+					{
+						min = a[j];
+						pos = j;
+					}
+				}
+			}
+
+			if (min < a[i])
+			{
+
+				temp = a[pos];
+				a[pos] = a[i];
+				a[i] = temp;
+				goto A;
+			}
+			i++;
+		}
+	}
+	sorting = 0;
+	i = j = 0;
+A:  printf("");
 }
 
 
@@ -113,7 +151,7 @@ void frontend_display()
 	text_output(330, 600, "SORTING ALGORITHM VISUALIZER", GLUT_BITMAP_TIMES_ROMAN_24);
 	glColor3f(1.0, 0.0, 0.0);
 	text_output(420, 535, "Press Enter to continue", GLUT_BITMAP_HELVETICA_18);
-	
+
 }
 
 
@@ -121,24 +159,24 @@ void second_page_display()
 {
 	glColor3f(0, 0, 1);
 	text_output(300, 750, "SORTING ALGORITHM VISUALIZER", GLUT_BITMAP_TIMES_ROMAN_24);
-	
+
 	// other text small font
 	text_output(10, 700, "This program sorts a random set of numbers(represented as bars of different heights) in ascending order  ", GLUT_BITMAP_9_BY_15);
-    
+
 	if (sorting == 0)	// if not sorting display menu
 	{
 		text_output(10, 660, "MENU :", GLUT_BITMAP_9_BY_15);
-		
+
 		text_output(10, 630, "Press s to SORT", GLUT_BITMAP_9_BY_15);
-		
+
 		text_output(10, 600, "Press c to SELECT the sort algorithm", GLUT_BITMAP_9_BY_15);
-		
+
 		text_output(10, 570, "Press r to RANDOMISE", GLUT_BITMAP_9_BY_15);
-		
+
 		text_output(10, 540, "Esc to QUIT", GLUT_BITMAP_9_BY_15);
-		
+
 		text_output(10, 510, "Selected sort: ", GLUT_BITMAP_9_BY_15);
-		
+
 		text_output(150, 510, *(sort_algo_string + sort_count), GLUT_BITMAP_9_BY_15);
 	}
 	else if (sorting == 1)	// while sorting
@@ -178,7 +216,7 @@ void display()
 			glEnd();
 
 			int_str(a[i], text);
-			
+
 			glColor3f(0, 0, 0);
 			text_output(12 + (700 / (MAX_ELE + 1)) * i, 35, text, GLUT_BITMAP_TIMES_ROMAN_10);
 		}
@@ -251,19 +289,21 @@ void keyboard(unsigned char key, int x, int y)
 
 void makedelay(int)
 {
-	if(sorting)
+	if (sorting)
 	{
-		switch(sort_count)
+		switch (sort_count)
 		{
 		case 0:	bubblesort();
-			    break;
+			break;
 		case 1: insertionsort();
-			    break;
+			break;
+		case 2: selectionsort();
+			break;
 
 		}
 	}
 	glutPostRedisplay();
-	glutTimerFunc(SPEED/MAX_ELE,makedelay,1);
+	glutTimerFunc(SPEED / MAX_ELE, makedelay, 1);
 }
 
 
