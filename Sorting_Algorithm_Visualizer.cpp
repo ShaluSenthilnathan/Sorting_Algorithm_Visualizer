@@ -3,15 +3,15 @@
 #include<string.h>
 #include<GL\glut.h>
 
-#define SORT_NO  3 //the number of sorting algorithms 
+#define SORT_NO  4 //the number of sorting algorithms 
 #define MAX_ELE  50
-#define SPEED  800 //Speed of sorting
+#define SPEED  700 //Speed of sorting
 
 int a[MAX_ELE];
 int k = 0, sorting = 0, sort_count = 0, swapflag = 0;
 int i, j, flag, count, dirflag;
 
-const char* sort_algo_string[] = { "Bubble Sort" ,"Insertion Sort","Selection Sort" };  //array containing the sorting algorithms 
+const char* sort_algo_string[] = { "Bubble Sort" ,"Insertion Sort","Selection Sort","Ripple Sort" };  //array containing the sorting algorithms 
 
 
 void text_output(int x, int y, const char* string, void* font)
@@ -105,6 +105,8 @@ void insertionsort()
 A:
 	i = j = 0;
 }
+
+//selection sort
 void selectionsort()
 {
 	int temp, j = 0, i = 0, min, pos;
@@ -144,6 +146,53 @@ void selectionsort()
 A:  printf("");
 }
 
+
+//ripple sort
+void ripplesort()
+{
+	int temp;
+	while (notsorted() && sorting)
+	{
+		if (dirflag == 0)
+		{
+			while (j < MAX_ELE - 1)
+			{
+				if (a[j] > a[j + 1])
+				{
+					swapflag = 1;
+					temp = a[j];
+					a[j] = a[j + 1];
+					a[j + 1] = temp;
+
+					goto A;
+				}
+				j++;
+				if (j == MAX_ELE - 1) { count++; j = MAX_ELE - count;	dirflag = 1 - dirflag; }
+				printf("j=%d forward swap %d and %d\n", j, a[j], a[j + 1]);
+			}
+		}
+		else
+		{
+			while (j >= 0)
+			{
+				if (a[j] > a[j + 1])
+				{
+					swapflag = 1;
+					temp = a[j];
+					a[j] = a[j + 1];
+					a[j + 1] = temp;
+
+					goto A;
+				}
+				j--;
+				if (j == 0) { dirflag = 1 - dirflag; }
+				printf("j=%d backward swap %d and %d\n", j, a[j], a[j + 1]);
+			}
+		}
+	}
+	sorting = 0;
+A: printf("");
+}
 
 void frontend_display()
 {
@@ -298,6 +347,8 @@ void makedelay(int)
 		case 1: insertionsort();
 			break;
 		case 2: selectionsort();
+			break;
+		case 3: ripplesort();
 			break;
 
 		}
