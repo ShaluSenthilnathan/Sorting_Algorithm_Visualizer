@@ -13,12 +13,9 @@ The program currently supports the following sorting algorithms: <br />
 2. Insertion Sort <br />
 3. Selection Sort <br />
 4. Ripple Sort <br />
-You can choose between these algorithms by pressing the "c" key.
 
 ## Visualization
-The bars represent the numbers to be sorted, with their heights indicating their values. <br />
-The algorithm being executed is displayed at the top of the window. <br />
-During the sorting process, the program highlights the bars being compared and swapped. <br />
+The bars represent the numbers to be sorted, with their heights indicating their values.During the sorting process, the program highlights the bars being compared and swapped.
 
 ## Usage
 Press Enter to start the program. <br />
