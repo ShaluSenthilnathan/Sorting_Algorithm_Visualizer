@@ -9,10 +9,10 @@ GLUT library
 
 ## Sorting Algorithms
 The program currently supports the following sorting algorithms:
-Bubble Sort
-Insertion Sort
-Selection Sort
-Ripple Sort
+1.Bubble Sort <br />
+2.Insertion Sort <br />
+3.Selection Sort <br />
+4.Ripple Sort <br />
 You can choose between these algorithms by pressing the "c" key.
 
 ## Visualization
