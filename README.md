@@ -8,7 +8,7 @@ OpenGL library
 GLUT library
 
 ## Sorting Algorithms
-The program currently supports the following sorting algorithms:
+The program currently supports the following sorting algorithms: <br />
 1.Bubble Sort <br />
 2.Insertion Sort <br />
 3.Selection Sort <br />
